@@ -1,8 +1,11 @@
 <?php
+echo getcwd()."\r\n";
 $projectDir = "AutonomicRESTMonitor";
 $workingDir = "/Applications/MAMP/htdocs/$projectDir/daemon/";
 chdir($workingDir);
 $fgc = file_get_contents("Monitoring.pid");
+if ( !isset($fgc) )
+    throw new Exception( "Failed to open Monitoring.pid");
 $command = 'ps -p ' . $fgc;
 exec($command, $op);
 if( count($op) == 1 )

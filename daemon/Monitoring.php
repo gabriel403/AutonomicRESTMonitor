@@ -21,9 +21,10 @@ while( true ) {
         foreach( $requesttypes as $requesttype ) {
             echo "Starting type '{$requesttype['type']}'\r\n";
             $startTime = time();
+            echo "Starting at $startTime\r\n";
             $type = "Autonomic_Model_Monitoring_" . $requesttype['type'];
             echo "Trying '$type::run({$site['hostname']})'\r\n";
-            $time_taken = $type::run($site['hostname']);
+            $time_taken = round($type::run($site['hostname']),3);
             echo "Time taken is '$time_taken'\r\n";
             $requestdb->addRequest($startTime, $time_taken, $requesttype['id'],
                     $site['id']);
