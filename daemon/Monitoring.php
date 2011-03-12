@@ -6,6 +6,8 @@ $roledb = new Access_Model_DbTable_Role();
 $requesttypesdb = new Access_Model_DbTable_RequestType();
 $requestdb = new Access_Model_DbTable_Request();
 $sitesdb = new Access_Model_DbTable_Site();
+exec("echo true > stayon");
+$stayon = true;
 
 while( true ) {
     $sites = $sitesdb->getSites();
@@ -42,5 +44,6 @@ while( true ) {
         echo "Sleeping for $time_mif microseconds\r\n\r\n";
         usleep($time_mif);
     }
+    $stayon  = file_get_contents("stayon", true);
 }
 ?>
