@@ -1,5 +1,4 @@
 <?php
-echo getcwd()."\r\n";
 $projectDir = "AutonomicRESTMonitor";
 $workingDir = "/Applications/MAMP/htdocs/$projectDir/daemon/";
 chdir($workingDir);
