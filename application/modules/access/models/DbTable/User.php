@@ -11,11 +11,8 @@ class Access_Model_DbTable_User extends Zend_Db_Table_Abstract {
         $result = $this->fetchAll($select);
         if( !$result )
             throw new Exception("Users not found.");
-        
+
         $resultRay = $result->toArray();
-        if( count($resultRay) < 1 )
-            throw new Exception("Users not found.");
-        
         return $resultRay;
     }
 
@@ -53,7 +50,7 @@ class Access_Model_DbTable_User extends Zend_Db_Table_Abstract {
         return $this->insert($data);
     }
 
-    public function updateUser( $id, $username, $password, $active, $id_Role, $id_User ) {
+    public function editUser( $id, $username, $password, $active, $id_Role, $id_User ) {
 
         $data = array(
             'username' => $username,

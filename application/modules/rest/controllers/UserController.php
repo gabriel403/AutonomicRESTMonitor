@@ -4,7 +4,7 @@ class Rest_UserController extends Zend_Controller_Action {
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->usersREST = new Rest_Model_User();
+        $this->RESTModel = new Rest_Model_User();
     }
 
     public function indexAction() {
@@ -18,7 +18,7 @@ class Rest_UserController extends Zend_Controller_Action {
         $error = array();
         
         try {
-            $users = $this->usersREST->getUsers();
+            $allitems = $this->RESTModel->gets();
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -30,7 +30,7 @@ class Rest_UserController extends Zend_Controller_Action {
                     ->setHttpResponseCode($error['code']);
         else
             $this->getResponse()
-                    ->setBody(json_encode($users))
+                    ->setBody(json_encode($allitems))
                     ->setHttpResponseCode(200);
     }
 
@@ -44,7 +44,7 @@ class Rest_UserController extends Zend_Controller_Action {
         $error = array();
         
         try {
-            $user = $this->usersREST->getUser($id);
+            $item = $this->RESTModel->get($id);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -56,7 +56,7 @@ class Rest_UserController extends Zend_Controller_Action {
                     ->setHttpResponseCode($error['code']);
         else
             $this->getResponse()
-                    ->setBody(json_encode($user))
+                    ->setBody(json_encode($item))
                     ->setHttpResponseCode(200);
     }
 
@@ -72,13 +72,13 @@ class Rest_UserController extends Zend_Controller_Action {
         $error = array();
         
         try {
-            $id = $this->usersREST->addUser($username, $password, $id_Role, $id_User);
+            $id = $this->RESTModel->add($username, $password, $id_Role, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( !$id || $id < 1 ) {
+        if( count($error) < 1 && ( !$id || $id < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to create";
@@ -119,23 +119,22 @@ class Rest_UserController extends Zend_Controller_Action {
         $error      = array();
         
         try {
-            $affected = $this->usersREST->editUser($id, $username, $password, $active, $id_Role, $id_User);
+            $affected = $this->RESTModel->edit($id, $username, $password, $active, $id_Role, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( !$affected || $affected < 1 ) {
+        if( count($error) < 1 && ( !isset($affected) || $affected < 1) ) {
 
             $error['code'] = 404;
-            $error['message'] = "failed to create";
+            $error['message'] = "failed to edit";
         }
         
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])
                     ->setHttpResponseCode($error['code']);
-        //validation validation validation
     }
 
     public function deleteAction() {
@@ -146,13 +145,13 @@ class Rest_UserController extends Zend_Controller_Action {
         $id = $this->getRequest()->getParam("id");
         $error = array();
         try {
-            $deletesuccess = $this->usersREST->deleteUser($id);
+            $deletesuccess = $this->RESTModel->delete($id);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( $deletesuccess < 1 ) {
+        if( count($error) < 1 && (!isset($deletesuccess) || $deletesuccess < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to delete";

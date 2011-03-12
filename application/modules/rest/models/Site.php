@@ -3,10 +3,10 @@
 class Rest_Model_Site {
 
     public function __construct() {
-        $this->siteDb = new Access_Model_DbTable_Site();
+        $this->db = new Access_Model_DbTable_Site();
     }
 
-    public function getSites() {
+    public function gets() {
         /*
          * 
          * valid query elements
@@ -16,10 +16,10 @@ class Rest_Model_Site {
          * addedBy,     the id_User or the person who added
          * 
          */
-        return $this->siteDb->getSites();
+        return $this->db->getSites();
     }
 
-    public function getSite( $id ) {
+    public function get( $id ) {
         /*
          * 
          * id,  the id of the site
@@ -27,12 +27,12 @@ class Rest_Model_Site {
          */
         $id = (int) $id;
         if( $id && $id > 0 )
-            return $this->siteDb->getSite($id);
+            return $this->db->getSite($id);
         else
             throw new Exception("No id supplied");
     }
 
-    public function addSite( $hostname, $ip, $id_User ) {
+    public function add( $hostname, $ip, $id_User ) {
 
         //validate hostname
         if( !is_string($hostname) )
@@ -55,11 +55,19 @@ class Rest_Model_Site {
         if( $id_User < 1 )
             throw new Exception("Invalid id_User $id_User");
         
-        return $this->siteDb->addSite($hostname, $ip, 1, $id_User);
+        return $this->db->addSite($hostname, $ip, 1, $id_User);
     }
     
-    public function editSite($id, $hostname, $ip, $active, $id_User) {
+    public function edit($id, $hostname, $ip, $active, $id_User) {
 
+        $id = (int) $id;
+        if( !$id ) {
+            throw new Exception("Id is not provided.");
+        }
+        if( $id < 1 ) {
+            throw new Exception("Id is invalid.");
+        }
+        
         //validate hostname
         if( !is_string($hostname) )
             throw new Exception("Hostname is not a string");
@@ -74,10 +82,12 @@ class Rest_Model_Site {
         if( !$validator->isValid($ip) )
             throw new Exception("ip is not a string");
 
-        //validate id_User
-        $active = (bool) $active;
-        if( !$active )
-            throw new Exception("Invalid id_User $active");
+        //validate active
+        if( !isset($active) )
+            throw new Exception("active not supplied");
+        $active = filter_var($active, FILTER_VALIDATE_BOOLEAN);
+        if( !isset($active) )
+            throw new Exception("Invalid active $active");
 
         //validate id_User
         $id_User = (int) $id_User;
@@ -86,8 +96,22 @@ class Rest_Model_Site {
         if( $id_User < 1 )
             throw new Exception("Invalid id_User $id_User");
         
-        return $this->siteDb->editSite($id, $hostname, $ip, 1, $id_User);
+        return $this->db->editSite($id, $hostname, $ip, $active, $id_User);
         
+    }
+    
+    public function delete($id)
+    {
+     
+        $id = (int) $id;
+        if( !$id ) {
+            throw new Exception("Id is not provided.");
+        }
+        if( $id < 1 ) {
+            throw new Exception("Id is invalid.");
+        }
+
+        return $this->db->deleteSite($id);
     }
 
 }

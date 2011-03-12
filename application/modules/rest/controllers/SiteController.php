@@ -4,7 +4,7 @@ class Rest_SiteController extends Zend_Controller_Action {
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->siteRest = new Rest_Model_Site();
+        $this->RESTModel = new Rest_Model_Site();
     }
 
     public function indexAction() {
@@ -13,8 +13,8 @@ class Rest_SiteController extends Zend_Controller_Action {
         $error = array();
 
         try {
-            $sites = $this->siteRest->getSites();
-        } catch( Exception $exception ) {
+            $allitems = $this->RESTModel->gets();
+        } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
@@ -25,7 +25,7 @@ class Rest_SiteController extends Zend_Controller_Action {
                     ->setHttpResponseCode($error['code']);
         else
             $this->getResponse()
-                    ->setBody(json_encode($sites))
+                    ->setBody(json_encode($allitems))
                     ->setHttpResponseCode(200);
     }
 
@@ -40,7 +40,7 @@ class Rest_SiteController extends Zend_Controller_Action {
         $error = array();
 
         try {
-            $site = $this->siteRest->getSite($id);
+            $item = $this->RESTModel->get($id);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -52,7 +52,7 @@ class Rest_SiteController extends Zend_Controller_Action {
                     ->setHttpResponseCode($error['code']);
         else
             $this->getResponse()
-                    ->setBody(json_encode($site))
+                    ->setBody(json_encode($item))
                     ->setHttpResponseCode(200);
     }
 
@@ -64,13 +64,13 @@ class Rest_SiteController extends Zend_Controller_Action {
         $error = array();
 
         try {
-            $id = $this->siteRest->addSite($hostname, $ip, $id_User);
+            $id = $this->RESTModel->add($hostname, $ip, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( !$id || $id < 1 ) {
+        if( count($error) < 1 && ( !$id || $id < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to create";
@@ -106,16 +106,16 @@ class Rest_SiteController extends Zend_Controller_Action {
         $error = array();
 
         try {
-            $affected = $this->siteRest->editSite($id, $hostname, $ip, $active, $id_User);
+            $affected = $this->RESTModel->edit($id, $hostname, $ip, $active, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( !$affected || $affected < 1 ) {
+        if( count($error) < 1 && ( !isset($affected) || $affected < 1) ) {
 
             $error['code'] = 404;
-            $error['message'] = "failed to create";
+            $error['message'] = "failed to edit";
         }
         
         if( count($error) > 0 )
@@ -132,13 +132,13 @@ class Rest_SiteController extends Zend_Controller_Action {
         $id = $this->getRequest()->getParam("id");
         $error = array();
         try {
-            $deletesuccess = $this->siteRest->deleteUser($id);
+            $deletesuccess = $this->RESTModel->delete($id);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( $deletesuccess < 1 ) {
+        if( count($error) < 1 && (!isset($deletesuccess) || $deletesuccess < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to delete";

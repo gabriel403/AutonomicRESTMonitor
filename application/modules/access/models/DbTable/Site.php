@@ -13,10 +13,8 @@ class Access_Model_DbTable_Site extends Zend_Db_Table_Abstract
         if( !$result )
             throw new Exception("Sites not found.");
         
-        $resultRay = $result->toArray();
-        if( count($resultRay) < 1 )
-            throw new Exception("Sites not found.");
         
+        $resultRay = $result->toArray();
         return $resultRay;
     }
 
@@ -53,20 +51,19 @@ class Access_Model_DbTable_Site extends Zend_Db_Table_Abstract
         return $this->insert($data);
     }
 
-    public function updateSite($id, $hostname, $ip, $active, $id_User ) {
+    public function editSite($id, $hostname, $ip, $active, $id_User ) {
 
         $data = array(
-            'username' => $username,
-            'password' => $password,
-            'active' => $active,
-            'id_Role' => $id_Role,
-            'id_User' => $id_User
+            'hostname'  => $hostname,
+            'ip'        => $ip,
+            'active'  => $active,
+            'id_User'   => $id_User
         );
         $where = $this->getAdapter()->quoteInto('id = ?', $id);
         return $this->update($data, $where);
     }
 
-    public function deleteUser( $id ) {
+    public function deleteSite( $id ) {
         $where = $this->getAdapter()->quoteInto('id = ?', $id);
         return $this->delete($where);
     }
