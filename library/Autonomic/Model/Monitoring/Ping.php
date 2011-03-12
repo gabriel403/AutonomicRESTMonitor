@@ -36,7 +36,7 @@ class Autonomic_Model_Monitoring_Ping {
 
             $return = $total_time;
         } else {
-            $return = false;
+            $return = -1;
         }
 
         socket_close($socket);

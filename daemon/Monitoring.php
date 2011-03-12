@@ -1,5 +1,5 @@
 <?php
-
+define('APPLICATION_ENV','dev');
 require_once '../public/index.php';
 
 $roledb = new Access_Model_DbTable_Role();

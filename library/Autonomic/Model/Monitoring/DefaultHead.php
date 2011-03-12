@@ -9,7 +9,7 @@ class Autonomic_Model_Monitoring_DefaultHead {
         $start = microtime(true);
         $headers = @get_headers($host, 1);
         $finish = microtime(true);
-        return isset($headers)?$finish-$start:false;
+        return isset($headers)?$finish-$start:-1;
     }
     
     function test() {

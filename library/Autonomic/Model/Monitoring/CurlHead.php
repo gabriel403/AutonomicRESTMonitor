@@ -18,7 +18,7 @@ class Autonomic_Model_Monitoring_CurlHead {
         $finish = microtime(true);
         $header = http_parse_headers($header);
         curl_close($curl);
-        return count($header) == 0?false:$finish-$start;
+        return count($header) == 0?-1:$finish-$start;
     }
 
     function test() {
