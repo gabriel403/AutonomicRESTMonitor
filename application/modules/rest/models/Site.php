@@ -48,8 +48,10 @@ class Rest_Model_Site {
         if( !$validator->isValid($ip) )
             throw new Exception("ip is not a string");
         
-        if ( -1 == Autonomic_Model_Monitoring_Ping::run($hostname) || -1 == Autonomic_Model_Monitoring_Head::run($hostname) )
-            throw new Exception("The hostname provided is either un-pingable or has no webservice running");
+        if ( -1 == Autonomic_Model_Monitoring_Ping::run($hostname) )
+            throw new Exception("The hostname provided is un-pingable");
+        if ( -1 == Autonomic_Model_Monitoring_Head::run($hostname) )
+            throw new Exception("The hostname provided has no webservice running");
         // TODO: check that ping and head both work ok with this hostname, else error
 
         //validate id_User
