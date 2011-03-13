@@ -1,19 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 3.3.7deb5build0.10.10.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 12, 2011 at 07:38 PM
--- Server version: 5.1.44
--- PHP Version: 5.3.2
+-- Generation Time: Mar 13, 2011 at 12:49 AM
+-- Server version: 5.1.49
+-- PHP Version: 5.3.3-1ubuntu9.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `autonomicrestmonitor`
@@ -25,7 +19,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `Request`
 --
 
-CREATE TABLE `Request` (
+CREATE TABLE IF NOT EXISTS `Request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `startTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `responseTime` float NOT NULL DEFAULT '0',
@@ -42,11 +36,11 @@ CREATE TABLE `Request` (
 -- Table structure for table `RequestType`
 --
 
-CREATE TABLE `RequestType` (
+CREATE TABLE IF NOT EXISTS `RequestType` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -54,7 +48,7 @@ CREATE TABLE `RequestType` (
 -- Table structure for table `Role`
 --
 
-CREATE TABLE `Role` (
+CREATE TABLE IF NOT EXISTS `Role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(16) DEFAULT NULL,
   `canAddUser` int(11) DEFAULT NULL,
@@ -70,7 +64,7 @@ CREATE TABLE `Role` (
   `roleLimit` int(11) DEFAULT NULL,
   `serverLimit` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -78,7 +72,7 @@ CREATE TABLE `Role` (
 -- Table structure for table `Site`
 --
 
-CREATE TABLE `Site` (
+CREATE TABLE IF NOT EXISTS `Site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hostname` varchar(64) DEFAULT NULL,
   `ip` varchar(16) DEFAULT NULL,
@@ -86,7 +80,7 @@ CREATE TABLE `Site` (
   `id_User` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_User` (`id_User`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -94,17 +88,18 @@ CREATE TABLE `Site` (
 -- Table structure for table `User`
 --
 
-CREATE TABLE `User` (
+CREATE TABLE IF NOT EXISTS `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(16) DEFAULT NULL,
   `password` varchar(40) DEFAULT NULL,
+  `salt` varchar(50) NOT NULL,
   `active` int(11) DEFAULT NULL,
   `id_Role` int(11) DEFAULT NULL,
   `id_User` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_Role` (`id_Role`),
   KEY `id_User` (`id_User`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Constraints for dumped tables
