@@ -47,6 +47,7 @@ class Rest_Model_Site {
         $validator = new Zend_Validate_Ip();
         if( !$validator->isValid($ip) )
             throw new Exception("ip is not a string");
+        // TODO: check that ping and head both work ok with this hostname, else error
 
         //validate id_User
         $id_User = (int) $id_User;

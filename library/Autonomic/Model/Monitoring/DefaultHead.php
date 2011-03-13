@@ -6,7 +6,7 @@
  */
 class Autonomic_Model_Monitoring_DefaultHead {
     function run( $host ) {
-        if ( !strpos($url, "http://") && !strpos($url, "https://") )
+        if ( !strpos($host, "http://") && !strpos($host, "https://") )
                 $host = "http://$host";
         $start = microtime(true);
         $headers = get_headers($host, 1);

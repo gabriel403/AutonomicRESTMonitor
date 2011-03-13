@@ -9,7 +9,7 @@ $sitesdb = new Access_Model_DbTable_Site();
 exec("echo true > stayon");
 $stayon = true;
 
-while( true ) {
+while( $stayon ) {
     $sites = $sitesdb->getSites();
     $requesttypes = $requesttypesdb->getTypes();
     //$config = Zend_Registry::get('config');
@@ -44,6 +44,6 @@ while( true ) {
         echo "Sleeping for $time_mif microseconds\r\n\r\n";
         usleep($time_mif);
     }
-    $stayon  = file_get_contents("stayon", true);
+    $stayon  = trim(file_get_contents("stayon", true));
 }
 ?>
