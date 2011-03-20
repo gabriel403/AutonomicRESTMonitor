@@ -13,24 +13,26 @@ while( $stayon ) {
     $sites = $sitesdb->getSites();
     $requesttypes = $requesttypesdb->getTypes();
     //$config = Zend_Registry::get('config');
-    $maintime = 300;//$config->monitoring->maintimeS;
+    //$config->monitoring->maintimeS;
+    $maintime = 300;
 
     $looptime = $maintime / count($sites);
 
     foreach( $sites as $site ) {
-        echo "Starting site {$site['hostname']}\r\n";
+        //error_log($str, 3, "../logs/access.log");
+        //echo "Starting site {$site['hostname']}\r\n";
         $loopStart = microtime(true);
         foreach( $requesttypes as $requesttype ) {
-            echo "Starting type '{$requesttype['type']}'\r\n";
+            //echo "Starting type '{$requesttype['type']}'\r\n";
             $startTime = time();
-            echo "Starting at $startTime\r\n";
+            //echo "Starting at $startTime\r\n";
             $type = "Autonomic_Model_Monitoring_" . $requesttype['type'];
-            echo "Trying '$type::run({$site['hostname']})'\r\n";
+            //echo "Trying '$type::run({$site['hostname']})'\r\n";
             $time_taken = round($type::run($site['hostname']),3);
-            echo "Time taken is '$time_taken'\r\n";
+            //echo "Time taken is '$time_taken'\r\n";
             $requestdb->addRequest($startTime, $time_taken, $requesttype['id'],
                     $site['id']);
-            echo "insert completed, moving on\r\n";
+            //echo "insert completed, moving on\r\n";
         }
 //        foreach( $requesttypes as $requesttype ) {
 //            $type = "Autonomic_Model_Monitoring_".$requesttype['type'];
@@ -40,8 +42,8 @@ while( $stayon ) {
         $loopFinish = microtime(true);
         $time_dif = round(($loopFinish - $loopStart) * 1000000);
         $time_mif = round($looptime * 1000000 - $time_dif);
-        echo "Finished all requests for site {$site['hostname']}\r\n";
-        echo "Sleeping for $time_mif microseconds\r\n\r\n";
+        //echo "Finished all requests for site {$site['hostname']}\r\n";
+        //echo "Sleeping for $time_mif microseconds\r\n\r\n";
         usleep($time_mif);
     }
     $stayon  = trim(file_get_contents("stayon", true));

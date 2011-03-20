@@ -16,6 +16,7 @@ class Rest_Model_Requesttype {
          * addedBy,     the id_User or the person who added
          * 
          */
+        //TODO: validate that user can see requesttypes, wil need user id from auth
         return $this->db->getTypes();
     }
 
@@ -25,6 +26,7 @@ class Rest_Model_Requesttype {
          * id,  the id of the site
          * 
          */
+        //TODO: validate that user can see requesttypes, wil need user id from auth
         $id = (int) $id;
         if( $id && $id > 0 )
             return $this->db->getType($id);
@@ -33,6 +35,7 @@ class Rest_Model_Requesttype {
     }
 
     public function add( $type ) {
+        //TODO: validate that user can add this requesttype, wil need user id from auth
 
 
         //validate type string
@@ -46,10 +49,12 @@ class Rest_Model_Requesttype {
         if( !class_exists("Autonomic_Model_Monitoring_$type") )
             throw new Exception("Type $type is not a valid monitoring type.");
 
+ 
         return $this->db->addType($type);
     }
 
     public function edit( $id, $type ) {
+        //TODO: validate that user can edit this requesttype, wil need user id from auth
 
         //validate id provided
         $id = (int) $id;
@@ -73,6 +78,7 @@ class Rest_Model_Requesttype {
     }
 
     public function delete( $id ) {
+        //TODO: validate that user can add this requestttype, wil need user id from auth
 
         $id = (int) $id;
         if( !$id ) {

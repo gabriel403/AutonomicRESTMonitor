@@ -4,9 +4,16 @@ class Access_Model_DbTable_User extends Zend_Db_Table_Abstract {
 
     protected $_name = 'User';
 
-    public function getUsers() {
+    public function getUsers( $limit, $offset, $id_User, $id_Role, $active,
+            $username ) {
 
         $select = $this->select();
+
+        $limit != -1 && $offset != -1 ? $select->limit($limit, $offset) : null;
+        $id_User != -1 ? $select->where("id_User = ?", $active) : null;
+        $id_Role != -1 ? $select->where("id_Role = ?", $username) : null;
+        $active != -1 ? $select->where("active = ?", $active) : null;
+        $username != -1 ? $select->where("username = ?", $username) : null;
         
         $result = $this->fetchAll($select);
         if( !$result )
@@ -42,7 +49,7 @@ class Access_Model_DbTable_User extends Zend_Db_Table_Abstract {
 
         $data = array(
             'username' => $username,
-            'password' => $password,
+            'password' => SHA1($password . "sodiumchloride"),
             'active' => $active,
             'id_Role' => $id_Role,
             'id_User' => $id_User
@@ -50,11 +57,12 @@ class Access_Model_DbTable_User extends Zend_Db_Table_Abstract {
         return $this->insert($data);
     }
 
-    public function editUser( $id, $username, $password, $active, $id_Role, $id_User ) {
+    public function editUser( $id, $username, $password, $active, $id_Role,
+            $id_User ) {
 
         $data = array(
             'username' => $username,
-            'password' => $password,
+            'password' => SHA1($password . "sodiumchloride"),
             'active' => $active,
             'id_Role' => $id_Role,
             'id_User' => $id_User

@@ -15,10 +15,17 @@ class Rest_UserController extends Zend_Controller_Action {
         //we also have to think about queries supplied here
         //addedById=?, range=? etc
         //validation validation validation
+        $limit = $this->getRequest()->getParam("limit");
+        $offset = $this->getRequest()->getParam("offset");
+        $id_User = $this->getRequest()->getParam("id_User");
+        $id_Role = $this->getRequest()->getParam("id_Role");
+        $active = $this->getRequest()->getParam("active");
+        $username = $this->getRequest()->getParam("username");
+
         $error = array();
-        
+
         try {
-            $allitems = $this->RESTModel->gets();
+            $allitems = $this->RESTModel->gets($limit, $offset, $id_User, $id_Role, $active, $username);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -42,14 +49,14 @@ class Rest_UserController extends Zend_Controller_Action {
         //validation validation validation
         $id = $this->getRequest()->getParam("id");
         $error = array();
-        
+
         try {
             $item = $this->RESTModel->get($id);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
-        
+
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])
@@ -70,7 +77,7 @@ class Rest_UserController extends Zend_Controller_Action {
         $id_Role = $this->getRequest()->getParam("id_Role");
         $id_User = $this->getRequest()->getParam("id_User");
         $error = array();
-        
+
         try {
             $id = $this->RESTModel->add($username, $password, $id_Role, $id_User);
         } catch( Exception $exc ) {
@@ -78,12 +85,12 @@ class Rest_UserController extends Zend_Controller_Action {
             $error['message'] = $exc->getMessage();
         }
 
-        if( count($error) < 1 && ( !$id || $id < 1) ) {
+        if( count($error) < 1 && (!$id || $id < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to create";
         }
-        
+
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])
@@ -110,27 +117,28 @@ class Rest_UserController extends Zend_Controller_Action {
         parse_str(file_get_contents("php://input"), $vars);
         $this->getRequest()->setParams($vars);
 
-        $id         = $this->getRequest()->getParam("id");
-        $username   = $this->getRequest()->getParam("username");
-        $password   = $this->getRequest()->getParam("password");
-        $active     = $this->getRequest()->getParam("active");
-        $id_Role    = $this->getRequest()->getParam("id_Role");
-        $id_User    = $this->getRequest()->getParam("id_User");
-        $error      = array();
-        
+        $id = $this->getRequest()->getParam("id");
+        $username = $this->getRequest()->getParam("username");
+        $password = $this->getRequest()->getParam("password");
+        $active = $this->getRequest()->getParam("active");
+        $id_Role = $this->getRequest()->getParam("id_Role");
+        $id_User = $this->getRequest()->getParam("id_User");
+        $error = array();
+
         try {
-            $affected = $this->RESTModel->edit($id, $username, $password, $active, $id_Role, $id_User);
+            $affected = $this->RESTModel->edit($id, $username, $password,
+                            $active, $id_Role, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
         }
 
-        if( count($error) < 1 && ( !isset($affected) || $affected < 1) ) {
+        if( count($error) < 1 && (!isset($affected) || $affected < 1) ) {
 
             $error['code'] = 404;
             $error['message'] = "failed to edit";
         }
-        
+
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])

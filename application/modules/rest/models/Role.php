@@ -16,6 +16,7 @@ class Rest_Model_Role {
          * addedBy,     the id_User or the person who added
          * 
          */
+        //TODO: validate that user can add this role, wil need user id from auth
         return $this->db->getRoles();
     }
 
@@ -25,6 +26,7 @@ class Rest_Model_Role {
          * id,  the id of the site
          * 
          */
+        //TODO: validate that user can add this role, wil need user id from auth
         $id = (int) $id;
         if( $id && $id > 0 )
             return $this->db->getRole($id);
@@ -36,6 +38,9 @@ class Rest_Model_Role {
             $canAddRole, $canDeleteRole, $canEditRole, $canAddServer,
             $canDeleteServer, $canEditServer, $userLimit, $roleLimit,
             $serverLimit ) {
+        //TODO: validate that user can add this role, wil need user id from auth
+        //TODO: validate that user can add a role
+        //TODO: validate that user can add a role with these permissions
 
         $options = array(
             'options' => array(
@@ -123,6 +128,8 @@ class Rest_Model_Role {
         if( $serverLimit == null )
             throw new Exception("Invalid serverLimit $serverLimit");
 
+        
+        
         return $this->db->addRole($name, $canAddUser, $canDeleteUser,
                 $canEditUser, $canAddRole, $canDeleteRole, $canEditRole,
                 $canAddServer, $canDeleteServer, $canEditServer, $userLimit,
@@ -133,7 +140,10 @@ class Rest_Model_Role {
             $canAddRole, $canDeleteRole, $canEditRole, $canAddServer,
             $canDeleteServer, $canEditServer, $userLimit, $roleLimit,
             $serverLimit ) {
-
+        //TODO: validate that user can add this role, wil need user id from auth
+        //TODO: validate that user can edit this role
+        //TODO: validate that user can edit this role with these permissions
+        
         $options = array(
             'options' => array(
                 'default' => null
@@ -227,6 +237,7 @@ class Rest_Model_Role {
         if( !isset($serverLimit) )
             throw new Exception("Invalid serverLimit $serverLimit");
 
+        
         return $this->db->editRole($id, $name, $canAddUser, $canDeleteUser,
                 $canEditUser, $canAddRole, $canDeleteRole, $canEditRole,
                 $canAddServer, $canDeleteServer, $canEditServer, $userLimit,
@@ -234,6 +245,7 @@ class Rest_Model_Role {
     }
 
     public function delete( $id ) {
+        //TODO: validate that user can delete this role, wil need user id from auth
 
         $id = (int) $id;
         if( !$id ) {

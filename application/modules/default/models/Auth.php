@@ -2,14 +2,20 @@
 
 class Default_Model_Auth {
 
-   
+    public function getUserId() {
+        $auth = Zend_Auth::getInstance();
+        if( $auth->hasIdentity() )
+            return $auth->getIdentity()->id;
+        return false;
+    }
+
     public function authenticate( $username, $password ) {
-        if ( !isset($username) || !isset($password) || strlen($username) < 5 || strlen($password) < 5 ) {
+        if( !isset($username) || !isset($password) || strlen($username) < 5 || strlen($password) < 5 ) {
             return false;
         }
         return $this->_process(array('username' => $username, 'password' => $password));
     }
-    
+
     protected function _process( $values ) {
         // Get our authentication adapter and check credentials
         $adapter = $this->_getAuthAdapter();
@@ -34,7 +40,7 @@ class Default_Model_Auth {
         $authAdapter->setTableName('User')
                 ->setIdentityColumn('username')
                 ->setCredentialColumn('password')
-                ->setCredentialTreatment('SHA1(CONCAT(?,salt))');
+                ->setCredentialTreatment("SHA1(CONCAT(?,'sodiumchloride'))");
 
 
         return $authAdapter;
