@@ -60,11 +60,12 @@ class Rest_SiteController extends Zend_Controller_Action {
 
         $hostname = $this->getRequest()->getParam("hostname");
         $ip = $this->getRequest()->getParam("ip");
+        $types = $this->getRequest()->getParam("types");
+        $types = (array)json_decode(stripslashes($types));
         $id_User = Default_Model_Auth::getUserId();
         $error = array();
-
         try {
-            $id = $this->RESTModel->add($hostname, $ip, $id_User);
+            $id = $this->RESTModel->add($hostname, $ip, $id_User, $types);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();

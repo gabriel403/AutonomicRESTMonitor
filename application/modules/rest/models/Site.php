@@ -82,13 +82,13 @@ class Rest_Model_Site {
         $notskiped = array();
         $srt = new Access_Model_DbTable_SiteRequestType();
         foreach( $rt as $type ) {
-            if( array_key_exists($type['type'], $types) && 0 == $type['type'] ) {
+            if( array_key_exists(strtolower($type['type']), $types) && 0 == $type['type'] ) {
                 $skiped[] = $type['type'];
                 continue;
             }
             $testtype = "Autonomic_Model_Monitoring_" . $type['type'];
             if( -1 == $testtype::run($hostname) )
-                throw new Exception("The hostname provided is un-{$type['type']}able, if you still want to add this site, try adding {$type['type']}=0");
+                throw new Exception("The hostname provided is un-{$type['type']}able, if you still want to add this site, try adding types={\\\"{$type['type']}\\\":0}");
             $notskiped[] = $type['id'];
         }
         if( count($skiped) == count($rt) ) {

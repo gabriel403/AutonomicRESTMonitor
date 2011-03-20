@@ -6,6 +6,7 @@ $roledb = new Access_Model_DbTable_Role();
 $requesttypesdb = new Access_Model_DbTable_RequestType();
 $requestdb = new Access_Model_DbTable_Request();
 $sitesdb = new Access_Model_DbTable_Site();
+$sitereqtypedb = new Access_Model_DbTable_SiteRequestType();
 exec("echo true > stayon");
 $stayon = true;
 
@@ -23,6 +24,8 @@ while( $stayon ) {
         //echo "Starting site {$site['hostname']}\r\n";
         $loopStart = microtime(true);
         foreach( $requesttypes as $requesttype ) {
+            if ( $sitereqtypedb->get($requesttype['id'], $site['id']) == 0 )
+                    continue;
             //echo "Starting type '{$requesttype['type']}'\r\n";
             $startTime = time();
             //echo "Starting at $startTime\r\n";
