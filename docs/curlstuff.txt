@@ -1,0 +1,4 @@
+curl -i -H "username: admin" -H "password: admin" -X POST -d "username=gabriel&password=cyclone&id_Role=1" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/user
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=ping" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/requesttype
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=HeAd" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/requesttype
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=google.com" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/site

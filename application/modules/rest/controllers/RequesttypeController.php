@@ -58,12 +58,12 @@ class Rest_RequesttypeController extends Zend_Controller_Action
     }
 
     public function postAction() {
-
+        $id_User = Default_Model_Auth::getUserId();
         $type = $this->getRequest()->getParam("type");
         $error = array();
 
         try {
-            $id = $this->RESTModel->add($type);
+            $id = $this->RESTModel->add($type, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();

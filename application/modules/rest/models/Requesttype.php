@@ -34,17 +34,19 @@ class Rest_Model_Requesttype {
             throw new Exception("No id supplied");
     }
 
-    public function add( $type ) {
+    public function add( $type, $id_User ) {
         //TODO: validate that user can add this requesttype, wil need user id from auth
 
 
         //validate type string
         if( !isset($type) )
-            throw new Exception(" $type is not supplied");
-        if( !is_string($type) )
-            throw new Exception(" $type is not a string");
+            throw new Exception("Invalid type $type");
+        $type = filter_var($type, FILTER_SANITIZE_STRING,
+                array(FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH));
+        if( null === $type )
+            throw new Exception("Invalid type $type");
         if( strlen($type) > 64 )
-            throw new Exception(" $type length greater than 64 characters.");
+            throw new Exception("Invalid type length $type");
         $type = ucfirst(strtolower($type));
         if( !class_exists("Autonomic_Model_Monitoring_$type") )
             throw new Exception("Type $type is not a valid monitoring type.");

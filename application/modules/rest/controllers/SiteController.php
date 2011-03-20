@@ -60,7 +60,7 @@ class Rest_SiteController extends Zend_Controller_Action {
 
         $hostname = $this->getRequest()->getParam("hostname");
         $ip = $this->getRequest()->getParam("ip");
-        $id_User = $this->getRequest()->getParam("id_User");
+        $id_User = Default_Model_Auth::getUserId();
         $error = array();
 
         try {

@@ -17,7 +17,7 @@ class Rest_UserController extends Zend_Controller_Action {
         //validation validation validation
         $limit = $this->getRequest()->getParam("limit");
         $offset = $this->getRequest()->getParam("offset");
-        $id_User = $this->getRequest()->getParam("id_User");
+        $id_User = Default_Model_Auth::getUserId();
         $id_Role = $this->getRequest()->getParam("id_Role");
         $active = $this->getRequest()->getParam("active");
         $username = $this->getRequest()->getParam("username");
@@ -25,7 +25,8 @@ class Rest_UserController extends Zend_Controller_Action {
         $error = array();
 
         try {
-            $allitems = $this->RESTModel->gets($limit, $offset, $id_User, $id_Role, $active, $username);
+            $allitems = $this->RESTModel->gets($limit, $offset, $id_User,
+                            $id_Role, $active, $username);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -48,6 +49,8 @@ class Rest_UserController extends Zend_Controller_Action {
         //we only accept user.id
         //validation validation validation
         $id = $this->getRequest()->getParam("id");
+        $id_User = Default_Model_Auth::getUserId();
+        
         $error = array();
 
         try {
@@ -75,7 +78,8 @@ class Rest_UserController extends Zend_Controller_Action {
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");
         $id_Role = $this->getRequest()->getParam("id_Role");
-        $id_User = $this->getRequest()->getParam("id_User");
+        $id_User = Default_Model_Auth::getUserId();
+        
         $error = array();
 
         try {
@@ -122,7 +126,8 @@ class Rest_UserController extends Zend_Controller_Action {
         $password = $this->getRequest()->getParam("password");
         $active = $this->getRequest()->getParam("active");
         $id_Role = $this->getRequest()->getParam("id_Role");
-        $id_User = $this->getRequest()->getParam("id_User");
+        $id_User = Default_Model_Auth::getUserId();
+        
         $error = array();
 
         try {
@@ -151,7 +156,10 @@ class Rest_UserController extends Zend_Controller_Action {
         //  and that the user can delete other users
         //instantiate the access user-db-model and delete
         $id = $this->getRequest()->getParam("id");
+        $id_User = Default_Model_Auth::getUserId();
+        
         $error = array();
+        
         try {
             $deletesuccess = $this->RESTModel->delete($id);
         } catch( Exception $exc ) {

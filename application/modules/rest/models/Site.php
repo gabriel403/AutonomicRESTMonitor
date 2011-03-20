@@ -16,7 +16,7 @@ class Rest_Model_Site {
          * addedBy,     the id_User or the person who added
          * 
          */
-         
+
         //TODO: validate that user can view sites OR only list the sites the user has access
 
         return $this->db->getSites();
@@ -39,9 +39,6 @@ class Rest_Model_Site {
 
     public function add( $hostname, $ip, $id_User, $types = array() ) {
         //TODO: validate that user can add this site, wil need user id from auth
-
-        
-        
         //validate id_User
         $id_User = (int) $id_User;
         if( !$id_User )
@@ -49,41 +46,70 @@ class Rest_Model_Site {
         if( $id_User < 1 )
             throw new Exception("Invalid id_User $id_User");
         //TODO: better validation
-
         //validate hostname
-        if( !is_string($hostname) )
-            throw new Exception("Hostname is not a string");
+        if( !isset($hostname) )
+            $hostname = null;
+        $hostname = filter_var($hostname, FILTER_SANITIZE_STRING,
+                array(FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH));
+        if( null === $hostname )
+            throw new Exception("Invalid hostname $hostname");
         if( strlen($hostname) > 64 )
-            throw new Exception("Hostname length greater than 64 characters.");
+            throw new Exception("Invalid hostname length $hostname");
         $validator = new Zend_Validate_Hostname();
         if( !$validator->isValid($hostname) )
             throw new Exception("Invalid hostname");
 
-        //validate ip supplied $validator = new Zend_Validate_Ip()->isValid($ip);
-        $validator = new Zend_Validate_Ip();
-        if( !$validator->isValid($ip) )
-            throw new Exception("ip is not a string");
 
+        //validate ip supplied $validator = new Zend_Validate_Ip()->isValid($ip);
+        $ip = filter_var($ip, FILTER_SANITIZE_STRING,
+                array(FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH));
+        if( null === $ip )
+            throw new Exception("Invalid ip $ip");
+        $validator = new Zend_Validate_Ip();
+        if( !$validator->isValid($ip) ) {
+            if( strcasecmp($hostname, gethostbyname($hostname)) == 0 )
+                throw new Exception("ip is not available, please set manually");
+            else
+                $ip = gethostbyname($hostname);
+        }
+
+        /*
+         * Checking that the hostname provided can be pinged or headed
+         */
         $requesttypedb = new Access_Model_DbTable_RequestType();
         $rt = $requesttypedb->getTypes();
-        $skipped = 0;
+        $skiped = array();
+        $notskiped = array();
+        $srt = new Access_Model_DbTable_SiteRequestType();
         foreach( $rt as $type ) {
-            if( array_key_exists($type['type'], $types) && 0 == $type['type'] )
-            {
+            if( array_key_exists($type['type'], $types) && 0 == $type['type'] ) {
                 $skiped[] = $type['type'];
                 continue;
             }
-            $testtype = "Autonomic_Model_Monitoring_" . $type;
+            $testtype = "Autonomic_Model_Monitoring_" . $type['type'];
             if( -1 == $testtype::run($hostname) )
-                throw new Exception("The hostname provided is un-{$type}able, if you still want to add this site, try adding {$type}=0");
+                throw new Exception("The hostname provided is un-{$type['type']}able, if you still want to add this site, try adding {$type['type']}=0");
+            $notskiped[] = $type['id'];
         }
         if( count($skiped) == count($rt) ) {
             $types = implode(", ", $skiped);
             throw new Exception("You can't try to add a site without allowing at least one of $types checking.");
         }
 
-        
-        return $this->db->addSite($hostname, $ip, 1, $id_User);
+        /*
+         * add the site to the db 
+         */
+        $id_Site = $this->db->addSite($hostname, $ip, 1, $id_User);
+
+
+        /*
+         * add the different requesttypes into the db per site
+         */
+        foreach( $notskiped as $type ) {
+            $srt->insert(array("id_Site" => $id_Site, "id_Requesttype" => $type));
+        }
+
+        return $id_Site;
     }
 
     public function edit( $id, $hostname, $ip, $active, $id_User, $ping = 1,
@@ -96,7 +122,7 @@ class Rest_Model_Site {
         }
         if( $id < 1 ) {
             throw new Exception("Id is invalid.");
-        //TODO: better validation
+            //TODO: better validation
         }
 
         //validate hostname
@@ -113,7 +139,6 @@ class Rest_Model_Site {
         if( 1 == $head && -1 == Autonomic_Model_Monitoring_Head::run($hostname) )
             throw new Exception("The hostname provided has no webservice running, if you still want to add this site, try adding head=0");
         //TODO: use the same stuff as in adding
-        
         //validate ip supplied $validator = new Zend_Validate_Ip()->isValid($ip);
         $validator = new Zend_Validate_Ip();
         if( !$validator->isValid($ip) )
@@ -139,7 +164,7 @@ class Rest_Model_Site {
 
     public function delete( $id ) {
         //TODO: validate that user can delete this site, wil need user id from auth
-        
+
         $id = (int) $id;
         if( !$id ) {
             throw new Exception("Id is not provided.");
