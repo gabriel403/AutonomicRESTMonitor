@@ -584,7 +584,7 @@ class Autonomic_Model_Monitoring_Ping {
         if( PEAR::isError($ping) ) {
             echo $ping->getMessage();
         } else {
-            $ping->setArgs(array('count' => 6, 'ttl' => 1, 'timeout' => 10));
+            $ping->setArgs(array('count' => 3, 'ttl' => 100, 'timeout' => 10));
             $result = $ping->ping($host);
             return count($result->_round_trip) > 0 && array_key_exists("avg",
                     $result->_round_trip) ? $result->_round_trip['avg'] : -1;
