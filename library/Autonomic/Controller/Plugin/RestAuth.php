@@ -3,6 +3,8 @@ class Autonomic_Controller_Plugin_RestAuth extends Zend_Controller_Plugin_Abstra
 {
     public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
+        if ( "rest" != $request->getModuleName() )
+                return;
         $username = $request->getHeader('username');
         $password = $request->getHeader('password');
         $auth = new Default_Model_Auth();

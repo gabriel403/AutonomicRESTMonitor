@@ -41,6 +41,7 @@ class Access_Model_DbTable_Request extends Zend_Db_Table_Abstract
     }
 
     public function addRequest($startTime, $responseTime, $id_RequestType, $id_Site){
+        $startTime = date("Y-m-d H:i:s", $startTime);
         
         $data = array(
             'startTime'  => $startTime,
