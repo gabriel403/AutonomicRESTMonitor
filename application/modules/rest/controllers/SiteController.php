@@ -4,7 +4,7 @@ class Rest_SiteController extends Zend_Controller_Action {
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->RESTModel = new Rest_Model_Site();
+        $this->RESTModel = new Access_Model_Site();
     }
 
     public function indexAction() {
@@ -57,6 +57,7 @@ class Rest_SiteController extends Zend_Controller_Action {
     }
 
     public function postAction() {
+        
 
         $hostname = $this->getRequest()->getParam("hostname");
         $ip = $this->getRequest()->getParam("ip");
@@ -96,8 +97,6 @@ class Rest_SiteController extends Zend_Controller_Action {
 
     public function putAction() {
         
-        parse_str(file_get_contents("php://input"), $vars);
-        $this->getRequest()->setParams($vars);
         
         $id = $this->getRequest()->getParam("id");
         $hostname = $this->getRequest()->getParam("hostname");

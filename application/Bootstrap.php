@@ -10,5 +10,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $frontController->getRouter()->addRoute('rest', $restRoute);
     }
 
+    protected function _initActionHelpers() {
+        $params = new Autonomic_Controller_Helper_Params();
+        Zend_Controller_Action_HelperBroker::addHelper($params);
+        
+        $contexts = new Autonomic_Controller_Helper_RestContexts();
+        Zend_Controller_Action_HelperBroker::addHelper($contexts);
+    }
 }
 

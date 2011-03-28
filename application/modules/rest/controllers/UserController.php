@@ -4,7 +4,7 @@ class Rest_UserController extends Zend_Controller_Action {
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->RESTModel = new Rest_Model_User();
+        $this->RESTModel = new Access_Model_User();
     }
 
     public function indexAction() {
@@ -74,7 +74,7 @@ class Rest_UserController extends Zend_Controller_Action {
         //instance the rest version of the of the user model
         //inside of which we do some sanity work, validate what is sent and that we have the right params etc
         //instantiate the access user-db-model and insert
-
+        
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");
         $id_Role = $this->getRequest()->getParam("id_Role");
@@ -117,9 +117,6 @@ class Rest_UserController extends Zend_Controller_Action {
         //inside of which we do some sanity work, validate the input
         //we accept the only stable field is User.id, this must be suppplied
         //instantiate the access user-db-model and update
-
-        parse_str(file_get_contents("php://input"), $vars);
-        $this->getRequest()->setParams($vars);
 
         $id = $this->getRequest()->getParam("id");
         $username = $this->getRequest()->getParam("username");

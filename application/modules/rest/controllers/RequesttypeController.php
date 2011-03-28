@@ -5,7 +5,7 @@ class Rest_RequesttypeController extends Zend_Controller_Action
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->RESTModel = new Rest_Model_Requesttype();
+        $this->RESTModel = new Access_Model_Requesttype();
     }
 
     public function indexAction() {
