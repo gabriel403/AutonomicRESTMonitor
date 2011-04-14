@@ -28,6 +28,10 @@ class Access_Model_Site {
          * id,  the id of the site
          * 
          */
+        
+
+        if ( !$this->db->userCanDosomething($id_User, "get", "site", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
         $id = (int) $id;
         //TODO: validate that user can view this site
         //TODO: validate this shit more
@@ -38,14 +42,10 @@ class Access_Model_Site {
     }
 
     public function add( $hostname, $ip, $id_User, $types = array() ) {
-        //TODO: validate that user can add this site, wil need user id from auth
-        //validate id_User
-        $id_User = (int) $id_User;
-        if( !$id_User )
-            throw new Exception("Invalid id_User $id_User");
-        if( $id_User < 1 )
-            throw new Exception("Invalid id_User $id_User");
-        //TODO: better validation
+
+        if ( !$this->db->userCanDosomething($id_User, "add", "site", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+        
         //validate hostname
         if( !isset($hostname) )
             $hostname = null;
@@ -114,7 +114,6 @@ class Access_Model_Site {
 
     public function edit( $id, $hostname, $ip, $active, $id_User, $ping = 1,
             $head = 1 ) {
-        //TODO: validate that user can edit this site, wil need user id from auth
 
         $id = (int) $id;
         if( !$id ) {
@@ -125,6 +124,9 @@ class Access_Model_Site {
             //TODO: better validation
         }
 
+        if ( !$this->db->userCanDosomething($id_User, "edit", "site", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+        
         //validate hostname
         if( !is_string($hostname) )
             throw new Exception("Hostname is not a string");
@@ -173,6 +175,9 @@ class Access_Model_Site {
             throw new Exception("Id is invalid.");
         }
 
+        if ( !$this->db->userCanDosomething($id_User, "delete", "site", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+        
         return $this->db->deleteSite($id);
     }
 

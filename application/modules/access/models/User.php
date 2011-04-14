@@ -19,11 +19,6 @@ class Access_Model_User {
     public function gets( $limit = 10, $offset = 0, $id_User = false,
             $id_Role = false, $active = -1, $username = -1 ) {
 
-        //echo "'".Default_Model_Auth::getUserId()."'";
-        //TODO: validate that user can see users, wil need user id from auth
-
-
-
         $options = array(
             'options' => array(
                 'default' => null
@@ -68,17 +63,21 @@ class Access_Model_User {
             throw new Exception("Invalid username $username");
         if( strlen($username) > 16 )
             throw new Exception("Invalid username length $username");
-        return $this->db->getUsers($limit, $offset, $id_User, $id_Role, $active,
+        
+        $users = $this->db->getUsers($limit, $offset, $id_User, $id_Role, $active,
                 $username);
+        foreach ( $users as $key => $user ) {
+            unset($users[$key]['password']);
+            if ( !$this->db->userCanDosomething($id_User, "get", "user", $user['id']) )
+                    unset($users[$key]);
+        }
+        return $users;
     }
 
     public function get( $id ) {
-        /*
-         * 
-         * id,  the id of the user
-         * 
-         */
-        //TODO: validate that user can see user, wil need user id from auth
+        if ( !$this->db->userCanDosomething($id_User, "get", "user", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+
 
         $id = (int) $id;
         if( $id && $id > 0 )
@@ -88,9 +87,10 @@ class Access_Model_User {
     }
 
     public function add( $username, $password, $id_Role, $id_User ) {
+        if ( !$this->db->userCanDosomething($id_User, "add", "user") )
+                throw new Exception( "You do not have permission to do that.", "403");
 
-        //TODO: validate that user can add users, wil need user id from auth
-        //validate username
+        
         if( !isset($username) )
             throw new Exception("No username supplied");
         $username = filter_var($username, FILTER_SANITIZE_STRING,
@@ -153,7 +153,9 @@ class Access_Model_User {
             throw new Exception("Id is invalid.");
         }
 
-
+        if ( !$this->db->userCanDosomething($id_User, "edit", "user", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+        
 //        $active = (bool) $active;
         if( !isset($active) ) {
             throw new Exception("active not supplied.");
@@ -197,28 +199,12 @@ class Access_Model_User {
         } catch( Exception $exc ) {
             throw new Exception("Invalid id_Role $id_Role");
         }
-        //TODO: validate that user can edit this users with role
-        //validate id_User
-        $id_User = (int) $id_User;
-
-        if( !$id_User )
-            throw new Exception("Invalid id_User $id_User");
-        if( $id_User < 1 )
-            throw new Exception("Invalid id_User $id_User");
-        $userdb = new Access_Model_DbTable_User();
-        try {
-            $userdb->getUser($id_User);
-        } catch( Exception $exc ) {
-            throw new Exception("Invalid id_User $id_User");
-        }
 
         return $this->db->editUser($id, $username, $password, $active, $id_Role,
                 $id_User);
     }
 
     public function delete( $id ) {
-        //TODO: validate that user can delete this user, wil need user id from auth
-
         $id = (int) $id;
         if( !$id ) {
             throw new Exception("Id is not provided.");
@@ -226,7 +212,10 @@ class Access_Model_User {
         if( $id < 1 ) {
             throw new Exception("Id is invalid.");
         }
-        //TODO: validate that user can delete this person
+
+        if ( !$this->db->userCanDosomething($id_User, "delete", "user", $id) )
+                throw new Exception( "You do not have permission to do that.", "403");
+
         return $this->db->deleteUser($id);
     }
 

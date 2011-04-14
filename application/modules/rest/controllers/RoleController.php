@@ -68,20 +68,20 @@ class Rest_RoleController extends Zend_Controller_Action
         $canAddRole = $this->getRequest()->getParam("canAddRole");
         $canDeleteRole = $this->getRequest()->getParam("canDeleteRole");
         $canEditRole = $this->getRequest()->getParam("canEditRole");
-        $canAddServer = $this->getRequest()->getParam("canAddServer");
-        $canDeleteServer = $this->getRequest()->getParam("canDeleteServer");
-        $canEditServer = $this->getRequest()->getParam("canEditServer");
+        $canAddSite = $this->getRequest()->getParam("canAddSite");
+        $canDeleteSite = $this->getRequest()->getParam("canDeleteSite");
+        $canEditSite = $this->getRequest()->getParam("canEditSite");
         $userLimit = $this->getRequest()->getParam("userLimit");
         $roleLimit = $this->getRequest()->getParam("roleLimit");
-        $serverLimit = $this->getRequest()->getParam("serverLimit");
+        $siteLimit = $this->getRequest()->getParam("siteLimit");
         $error = array();
 
         try {
             $id = $this->RESTModel->add($name, 
                     $canAddUser, $canDeleteUser, $canEditUser,
                     $canAddRole, $canDeleteRole, $canEditRole,
-                    $canAddServer, $canDeleteServer, $canEditServer,
-                    $userLimit, $roleLimit, $serverLimit);
+                    $canAddSite, $canDeleteSite, $canEditSite,
+                    $userLimit, $roleLimit, $siteLimit);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -123,20 +123,20 @@ class Rest_RoleController extends Zend_Controller_Action
         $canAddRole = $this->getRequest()->getParam("canAddRole");
         $canDeleteRole = $this->getRequest()->getParam("canDeleteRole");
         $canEditRole = $this->getRequest()->getParam("canEditRole");
-        $canAddServer = $this->getRequest()->getParam("canAddServer");
-        $canDeleteServer = $this->getRequest()->getParam("canDeleteServer");
-        $canEditServer = $this->getRequest()->getParam("canEditServer");
+        $canAddSite = $this->getRequest()->getParam("canAddSite");
+        $canDeleteSite = $this->getRequest()->getParam("canDeleteSite");
+        $canEditSite = $this->getRequest()->getParam("canEditSite");
         $userLimit = $this->getRequest()->getParam("userLimit");
         $roleLimit = $this->getRequest()->getParam("roleLimit");
-        $serverLimit = $this->getRequest()->getParam("serverLimit");
+        $siteLimit = $this->getRequest()->getParam("siteLimit");
         $error = array();
 
         try {
             $affected = $this->RESTModel->edit($id, $name, 
                     $canAddUser, $canDeleteUser, $canEditUser,
                     $canAddRole, $canDeleteRole, $canEditRole,
-                    $canAddServer, $canDeleteServer, $canEditServer,
-                    $userLimit, $roleLimit, $serverLimit);
+                    $canAddSite, $canDeleteSite, $canEditSite,
+                    $userLimit, $roleLimit, $siteLimit);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();

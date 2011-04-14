@@ -35,9 +35,9 @@ class Access_Model_Role {
     }
 
     public function add( $name, $canAddUser, $canDeleteUser, $canEditUser,
-            $canAddRole, $canDeleteRole, $canEditRole, $canAddServer,
-            $canDeleteServer, $canEditServer, $userLimit, $roleLimit,
-            $serverLimit ) {
+            $canAddRole, $canDeleteRole, $canEditRole, $canAddSite,
+            $canDeleteSite, $canEditSite, $userLimit, $roleLimit,
+            $siteLimit ) {
         //TODO: validate that user can add this role, wil need user id from auth
         //TODO: validate that user can add a role
         //TODO: validate that user can add a role with these permissions
@@ -92,23 +92,23 @@ class Access_Model_Role {
         if( !isset($canEditRole) )
             throw new Exception("Invalid canEditRole $canEditRole");
 
-        if( !isset($canAddServer) )
-            throw new Exception("Invalid canAddServer $canAddServer");
-        $canAddServer = filter_var($canAddServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canAddServer) )
-            throw new Exception("Invalid canAddServer $canAddServer");
+        if( !isset($canAddSite) )
+            throw new Exception("Invalid canAddSite $canAddSite");
+        $canAddSite = filter_var($canAddSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canAddSite) )
+            throw new Exception("Invalid canAddSite $canAddSite");
 
-        if( !isset($canDeleteServer) )
-            throw new Exception("Invalid canDeleteServer $canDeleteServer");
-        $canDeleteServer = filter_var($canDeleteServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canDeleteServer) )
-            throw new Exception("Invalid canDeleteServer $canDeleteServer");
+        if( !isset($canDeleteSite) )
+            throw new Exception("Invalid canDeleteSite $canDeleteSite");
+        $canDeleteSite = filter_var($canDeleteSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canDeleteSite) )
+            throw new Exception("Invalid canDeleteSite $canDeleteSite");
 
-        if( !isset($canEditServer) )
-            throw new Exception("Invalid canEditServer $canEditServer");
-        $canEditServer = filter_var($canEditServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canEditServer) )
-            throw new Exception("Invalid canEditServer $canEditServer");
+        if( !isset($canEditSite) )
+            throw new Exception("Invalid canEditSite $canEditSite");
+        $canEditSite = filter_var($canEditSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canEditSite) )
+            throw new Exception("Invalid canEditSite $canEditSite");
 
         if( !isset($userLimit) )
             throw new Exception("Invalid userLimit $userLimit");
@@ -122,24 +122,24 @@ class Access_Model_Role {
         if( !isset($roleLimit) )
             throw new Exception("Invalid roleLimit $roleLimit");
 
-        if( !isset($serverLimit) )
-            throw new Exception("Invalid serverLimit $serverLimit");
-        $serverLimit = filter_var($serverLimit, FILTER_VALIDATE_INT, $options);
-        if( $serverLimit == null )
-            throw new Exception("Invalid serverLimit $serverLimit");
+        if( !isset($siteLimit) )
+            throw new Exception("Invalid siteLimit $siteLimit");
+        $siteLimit = filter_var($siteLimit, FILTER_VALIDATE_INT, $options);
+        if( $siteLimit == null )
+            throw new Exception("Invalid siteLimit $siteLimit");
 
         
         
         return $this->db->addRole($name, $canAddUser, $canDeleteUser,
                 $canEditUser, $canAddRole, $canDeleteRole, $canEditRole,
-                $canAddServer, $canDeleteServer, $canEditServer, $userLimit,
-                $roleLimit, $serverLimit);
+                $canAddSite, $canDeleteSite, $canEditSite, $userLimit,
+                $roleLimit, $siteLimit);
     }
 
     public function edit( $id, $name, $canAddUser, $canDeleteUser, $canEditUser,
-            $canAddRole, $canDeleteRole, $canEditRole, $canAddServer,
-            $canDeleteServer, $canEditServer, $userLimit, $roleLimit,
-            $serverLimit ) {
+            $canAddRole, $canDeleteRole, $canEditRole, $canAddSite,
+            $canDeleteSite, $canEditSite, $userLimit, $roleLimit,
+            $siteLimit ) {
         //TODO: validate that user can add this role, wil need user id from auth
         //TODO: validate that user can edit this role
         //TODO: validate that user can edit this role with these permissions
@@ -201,23 +201,23 @@ class Access_Model_Role {
         if( !isset($canEditRole) )
             throw new Exception("Invalid canEditRole $canEditRole");
 
-        if( !isset($canAddServer) )
-            throw new Exception("Invalid canAddServer $canAddServer");
-        $canAddServer = filter_var($canAddServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canAddServer) )
-            throw new Exception("Invalid canAddServer $canAddServer");
+        if( !isset($canAddSite) )
+            throw new Exception("Invalid canAddSite $canAddSite");
+        $canAddSite = filter_var($canAddSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canAddSite) )
+            throw new Exception("Invalid canAddSite $canAddSite");
 
-        if( !isset($canDeleteServer) )
-            throw new Exception("Invalid canDeleteServer $canDeleteServer");
-        $canDeleteServer = filter_var($canDeleteServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canDeleteServer) )
-            throw new Exception("Invalid canDeleteServer $canDeleteServer");
+        if( !isset($canDeleteSite) )
+            throw new Exception("Invalid canDeleteSite $canDeleteSite");
+        $canDeleteSite = filter_var($canDeleteSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canDeleteSite) )
+            throw new Exception("Invalid canDeleteSite $canDeleteSite");
 
-        if( !isset($canEditServer) )
-            throw new Exception("Invalid canEditServer $canEditServer");
-        $canEditServer = filter_var($canEditServer, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if( !isset($canEditServer) )
-            throw new Exception("Invalid canEditServer $canEditServer");
+        if( !isset($canEditSite) )
+            throw new Exception("Invalid canEditSite $canEditSite");
+        $canEditSite = filter_var($canEditSite, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if( !isset($canEditSite) )
+            throw new Exception("Invalid canEditSite $canEditSite");
 
         if( !isset($userLimit) )
             throw new Exception("Invalid userLimit $userLimit");
@@ -231,17 +231,17 @@ class Access_Model_Role {
         if( !isset($roleLimit) )
             throw new Exception("Invalid roleLimit $roleLimit");
 
-        if( !isset($serverLimit) )
-            throw new Exception("Invalid serverLimit $serverLimit");
-        $serverLimit = filter_var($serverLimit, FILTER_VALIDATE_INT, $options);
-        if( !isset($serverLimit) )
-            throw new Exception("Invalid serverLimit $serverLimit");
+        if( !isset($siteLimit) )
+            throw new Exception("Invalid siteLimit $siteLimit");
+        $siteLimit = filter_var($siteLimit, FILTER_VALIDATE_INT, $options);
+        if( !isset($siteLimit) )
+            throw new Exception("Invalid siteLimit $siteLimit");
 
         
         return $this->db->editRole($id, $name, $canAddUser, $canDeleteUser,
                 $canEditUser, $canAddRole, $canDeleteRole, $canEditRole,
-                $canAddServer, $canDeleteServer, $canEditServer, $userLimit,
-                $roleLimit, $serverLimit);
+                $canAddSite, $canDeleteSite, $canEditSite, $userLimit,
+                $roleLimit, $siteLimit);
     }
 
     public function delete( $id ) {
