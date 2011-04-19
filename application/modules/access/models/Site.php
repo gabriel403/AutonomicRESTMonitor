@@ -4,6 +4,7 @@ class Access_Model_Site {
 
     public function __construct() {
         $this->db = new Access_Model_DbTable_Site();
+        $this->dma = new Default_Model_Auth();
     }
 
     public function gets() {
@@ -18,6 +19,7 @@ class Access_Model_Site {
          */
 
         //TODO: validate that user can view sites OR only list the sites the user has access
+        //TODO: add in all the get shit
 
         return $this->db->getSites();
     }
@@ -30,7 +32,7 @@ class Access_Model_Site {
          */
         
 
-        if ( !$this->db->userCanDosomething($id_User, "get", "site", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "get", "site", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
         $id = (int) $id;
         //TODO: validate that user can view this site
@@ -43,7 +45,7 @@ class Access_Model_Site {
 
     public function add( $hostname, $ip, $id_User, $types = array() ) {
 
-        if ( !$this->db->userCanDosomething($id_User, "add", "site", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "add", "site", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
         
         //validate hostname
@@ -124,7 +126,7 @@ class Access_Model_Site {
             //TODO: better validation
         }
 
-        if ( !$this->db->userCanDosomething($id_User, "edit", "site", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "edit", "site", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
         
         //validate hostname
@@ -175,7 +177,7 @@ class Access_Model_Site {
             throw new Exception("Id is invalid.");
         }
 
-        if ( !$this->db->userCanDosomething($id_User, "delete", "site", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "delete", "site", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
         
         return $this->db->deleteSite($id);

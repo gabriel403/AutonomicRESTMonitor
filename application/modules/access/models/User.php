@@ -4,6 +4,7 @@ class Access_Model_User {
 
     public function __construct() {
         $this->db = new Access_Model_DbTable_User();
+        $this->dma = new Default_Model_Auth();
     }
 
     /**
@@ -68,14 +69,14 @@ class Access_Model_User {
                 $username);
         foreach ( $users as $key => $user ) {
             unset($users[$key]['password']);
-            if ( !$this->db->userCanDosomething($id_User, "get", "user", $user['id']) )
+            if ( !$this->dma->userCanDosomething($id_User, "get", "user", $user['id']) )
                     unset($users[$key]);
         }
         return $users;
     }
 
     public function get( $id ) {
-        if ( !$this->db->userCanDosomething($id_User, "get", "user", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "get", "user", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
 
 
@@ -87,7 +88,7 @@ class Access_Model_User {
     }
 
     public function add( $username, $password, $id_Role, $id_User ) {
-        if ( !$this->db->userCanDosomething($id_User, "add", "user") )
+        if ( !$this->dma->userCanDosomething($id_User, "add", "user") )
                 throw new Exception( "You do not have permission to do that.", "403");
 
         
@@ -153,7 +154,7 @@ class Access_Model_User {
             throw new Exception("Id is invalid.");
         }
 
-        if ( !$this->db->userCanDosomething($id_User, "edit", "user", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "edit", "user", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
         
 //        $active = (bool) $active;
@@ -213,7 +214,7 @@ class Access_Model_User {
             throw new Exception("Id is invalid.");
         }
 
-        if ( !$this->db->userCanDosomething($id_User, "delete", "user", $id) )
+        if ( !$this->dma->userCanDosomething($id_User, "delete", "user", $id) )
                 throw new Exception( "You do not have permission to do that.", "403");
 
         return $this->db->deleteUser($id);

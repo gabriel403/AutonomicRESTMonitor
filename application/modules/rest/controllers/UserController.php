@@ -4,6 +4,7 @@ class Rest_UserController extends Zend_Controller_Action {
 
     public function init() {
         $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->disableLayout();
         $this->RESTModel = new Access_Model_User();
     }
 

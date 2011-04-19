@@ -1,0 +1,35 @@
+/* 
+    Document   : global
+    Created on : Apr 19, 2011, 1:55:55 AM
+    Author     : gabriel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+root { 
+    display: block;
+}
+
+#Login {
+    width: 500px;
+    float: right;
+}
+
+#title {
+    float: left;
+    padding-top: 25px;
+}
+
+#Login dt, #Login dd {
+    float: left;
+}
+
+#Login dt {
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+#Login dd {
+    margin-left: 0px;
+}
+
+

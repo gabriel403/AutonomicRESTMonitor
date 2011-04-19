@@ -74,6 +74,7 @@ class Rest_RoleController extends Zend_Controller_Action
         $userLimit = $this->getRequest()->getParam("userLimit");
         $roleLimit = $this->getRequest()->getParam("roleLimit");
         $siteLimit = $this->getRequest()->getParam("siteLimit");
+        $id_User = Default_Model_Auth::getUserId();
         $error = array();
 
         try {
@@ -81,7 +82,7 @@ class Rest_RoleController extends Zend_Controller_Action
                     $canAddUser, $canDeleteUser, $canEditUser,
                     $canAddRole, $canDeleteRole, $canEditRole,
                     $canAddSite, $canDeleteSite, $canEditSite,
-                    $userLimit, $roleLimit, $siteLimit);
+                    $userLimit, $roleLimit, $siteLimit, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -129,6 +130,7 @@ class Rest_RoleController extends Zend_Controller_Action
         $userLimit = $this->getRequest()->getParam("userLimit");
         $roleLimit = $this->getRequest()->getParam("roleLimit");
         $siteLimit = $this->getRequest()->getParam("siteLimit");
+        $id_User = Default_Model_Auth::getUserId();
         $error = array();
 
         try {
@@ -136,7 +138,7 @@ class Rest_RoleController extends Zend_Controller_Action
                     $canAddUser, $canDeleteUser, $canEditUser,
                     $canAddRole, $canDeleteRole, $canEditRole,
                     $canAddSite, $canDeleteSite, $canEditSite,
-                    $userLimit, $roleLimit, $siteLimit);
+                    $userLimit, $roleLimit, $siteLimit, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -160,9 +162,11 @@ class Rest_RoleController extends Zend_Controller_Action
         //  and that the user can delete other users
         //instantiate the access user-db-model and delete
         $id = $this->getRequest()->getParam("id");
+        $id_User = Default_Model_Auth::getUserId();
         $error = array();
+
         try {
-            $deletesuccess = $this->RESTModel->delete($id);
+            $deletesuccess = $this->RESTModel->delete($id, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();

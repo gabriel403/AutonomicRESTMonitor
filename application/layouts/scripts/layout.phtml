@@ -1,0 +1,43 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Zend Framework Quickstart Application</title>
+        <?php
+        $this->dojo()->enable();
+
+        if( $this->dojo()->isEnabled() ) {
+            $this->dojo()->setCdnVersion('1.5')
+                    ->addStyleSheetModule('dijit.themes.claro');
+            echo $this->dojo();
+        }
+
+        echo $this->headLink()->appendStylesheet('/css/global.css');
+
+        $this->headScript()->appendFile(
+                '/js/loginform.js', 'text/javascript'
+        );
+        ?>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <body>
+        <div>
+            <div id="title">Autonomic REST Monitor</div>
+            <?php
+            $auth = new Default_Model_Auth();
+            if( $auth->getUserId() ) {
+                
+            } else {
+                $loginform = new Default_Form_loginForm();
+                echo $loginform;
+            }
+            ?>
+            <br style="clear: both;" />
+        </div>
+        <?php echo $this->layout()->content ?>
+
+    </body>
+</html>

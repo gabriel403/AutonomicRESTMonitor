@@ -4,6 +4,7 @@ class Access_Model_Requesttype {
 
     public function __construct() {
         $this->db = new Access_Model_DbTable_RequestType();
+        $this->dma = new Default_Model_Auth();
     }
 
     public function gets() {
