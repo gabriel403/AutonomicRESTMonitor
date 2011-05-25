@@ -74,8 +74,6 @@ class Rest_SiteController extends Zend_Controller_Action {
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
-	    echo $exc->getMessage();
-	    exit;
         }
 
         if( count($error) < 1 && ( !$id || $id < 1) ) {
