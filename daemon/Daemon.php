@@ -1,6 +1,6 @@
 <?php
 $projectDir = "AutonomicRESTMonitor";
-$workingDir = "/Applications/MAMP/htdocs/$projectDir/daemon/";
+$workingDir = "/var/www/$projectDir/daemon/";
 chdir($workingDir);
 $fgc = file_get_contents("Monitoring.pid");
 if ( !isset($fgc) )
