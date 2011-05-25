@@ -8,14 +8,14 @@ class Access_Model_User {
 	}
 
 	/**
-	 * 
+	 *
 	 * valid query elements
 	 * limit,   the limited range of elements returned
 	 * offset,  The number of elements to skip before we find values to return
 	 * addedBy, gets all the user with a specific id_User
 	 * role,    limits the result to those with the specified id_Role
 	 * active,  limits to wether the user is active
-	 * 
+	 *
 	 */
 	public function gets($limit = 10, $offset = 0, $id_User = false,
 		$id_Role = false, $active = -1, $username = -1) {
@@ -39,7 +39,7 @@ class Access_Model_User {
 			throw new Exception("Invalid offset $offset");
 
 		if ( !isset($id_User) || !$id_User ) {
-			$id_User = -1;
+			$id_User = Default_Model_Auth::getUserId();
 		}
 		$id_User = filter_var($id_User, FILTER_VALIDATE_INT, $options);
 		if ( null === $id_User )
