@@ -1,0 +1,83 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Autonomic REST Monitor</title>
+		<?php
+		$this->dojo()->enable();
+
+		if ( $this->dojo()->isEnabled() ) {
+			$this->dojo()->setCdnVersion('1.5')
+				->addStyleSheetModule('dijit.themes.claro')
+				->setDjConfigOption('parseOnLoad', true);
+			echo $this->dojo();
+		}
+
+		echo $this->headLink()->appendStylesheet('/css/default.css');
+
+		$this->headScript()->appendFile(
+			'/js/default.js', 'text/javascript'
+		);
+		?>
+		<?php echo $this->headMeta(); ?>
+		<?php echo $this->headTitle(); ?>
+		<?php echo $this->headLink(); ?>
+		<?php echo $this->headScript(); ?>
+	</head>
+	<body>
+		<div>
+			<div id="title"><a href="/">Autonomic REST Monitor</a></div>
+			<?php
+			$zcf = Zend_Controller_Front::getInstance();
+			$request = $zcf->getRequest();
+			$response = $zcf->getResponse();
+			if ( Zend_Auth::getInstance()->hasIdentity() ) {
+				$module = $request->getModuleName();
+				$menubar = <<<EOT
+				<div id="menubar">
+					<div class="menuitem"><a href="/$module/view/sites">Sites</a></div>
+					<div class="menuitem"><a href="/$module/view/requests">Requests</a></div>
+					<div class="menuitem"><a href="/$module/login/logout">Logout</a></div>
+					<br style="clear: both;" />
+				</div>
+				<br style="clear: both;" />
+EOT;
+				echo $menubar;
+			} else {
+				if ( strcasecmp("login", $request->getControllerName()) && strcasecmp("error",
+						$request->getControllerName()) )
+					$response->setRedirect("/admin/login/login");
+			}
+			?>
+			<br style="clear: both;" />
+		</div>
+		<div id="infoLeft"><br />
+			<?php
+			if ( Zend_Auth::getInstance()->hasIdentity()  ) {
+				$dma = new Default_Model_Auth();
+				$auth = Zend_Auth::getInstance();
+				$uid = $dma->getUserId();
+				echo "Welcome " . $dma->getUserName() . "!<br />";
+				$dbm = new Access_Model_Site();
+				echo "Current Site Count: " . count($dbm->gets()) . "<br />";
+				$rid = $auth->getIdentity()->id_Role;
+				$dbm2 = new Access_Model_Role();
+				$role = $dbm2->get($rid, $uid);
+				if ( -1 == $role['serverLimit'] )
+					$role['serverLimit'] = "Unlimited";
+				echo "Current Max Sites: ".$role['serverLimit']."<br />";
+			}
+			?>
+		</div>
+		<div id="contentDiv">
+			<?php
+			if ( Zend_Auth::getInstance()->hasIdentity() || strcasecmp("login",
+					$request->getControllerName()) || strcasecmp("error",
+					$request->getControllerName()) ) {
+				echo $this->layout()->content;
+			}
+			?>
+		</div>
+		<br style="clear: both;" />
+	</body>
+</html>

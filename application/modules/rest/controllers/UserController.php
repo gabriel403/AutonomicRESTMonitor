@@ -51,11 +51,11 @@ class Rest_UserController extends Zend_Controller_Action {
         //validation validation validation
         $id = $this->getRequest()->getParam("id");
         $id_User = Default_Model_Auth::getUserId();
-        
+
         $error = array();
 
         try {
-            $item = $this->RESTModel->get($id);
+            $item = $this->RESTModel->get($id, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -75,12 +75,12 @@ class Rest_UserController extends Zend_Controller_Action {
         //instance the rest version of the of the user model
         //inside of which we do some sanity work, validate what is sent and that we have the right params etc
         //instantiate the access user-db-model and insert
-        
+
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");
         $id_Role = $this->getRequest()->getParam("id_Role");
         $id_User = Default_Model_Auth::getUserId();
-        
+
         $error = array();
 
         try {
@@ -125,7 +125,7 @@ class Rest_UserController extends Zend_Controller_Action {
         $active = $this->getRequest()->getParam("active");
         $id_Role = $this->getRequest()->getParam("id_Role");
         $id_User = Default_Model_Auth::getUserId();
-        
+
         $error = array();
 
         try {
@@ -150,14 +150,14 @@ class Rest_UserController extends Zend_Controller_Action {
 
     public function deleteAction() {
         //instance the rest version of the of the user model
-        //inside of which we do some sanity work, validate the user.id 
+        //inside of which we do some sanity work, validate the user.id
         //  and that the user can delete other users
         //instantiate the access user-db-model and delete
         $id = $this->getRequest()->getParam("id");
         $id_User = Default_Model_Auth::getUserId();
-        
+
         $error = array();
-        
+
         try {
             $deletesuccess = $this->RESTModel->delete($id);
         } catch( Exception $exc ) {

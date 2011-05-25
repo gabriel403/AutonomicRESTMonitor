@@ -99,17 +99,17 @@ class Rest_Model_Site {
         /*
          * add the site to the db 
          */
-        $id_Site = $this->db->addSite($hostname, $ip, 1, $id_User);
+        $id_Server = $this->db->addSite($hostname, $ip, 1, $id_User);
 
 
         /*
          * add the different requesttypes into the db per site
          */
         foreach( $notskiped as $type ) {
-            $srt->insert(array("id_Site" => $id_Site, "id_Requesttype" => $type));
+            $srt->insert(array("id_Server" => $id_Server, "id_Requesttype" => $type));
         }
 
-        return $id_Site;
+        return $id_Server;
     }
 
     public function edit( $id, $hostname, $ip, $active, $id_User, $ping = 1,

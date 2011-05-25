@@ -11,9 +11,10 @@ class Rest_SiteController extends Zend_Controller_Action {
         //instantiate the rest version of the site model
         //do some sanity checking
         $error = array();
+        $id_User = Default_Model_Auth::getUserId();
 
         try {
-            $allitems = $this->RESTModel->gets();
+            $allitems = $this->RESTModel->gets($id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -37,10 +38,11 @@ class Rest_SiteController extends Zend_Controller_Action {
         //validation validation validation
 
         $id = $this->getRequest()->getParam("id");
+        $id_User = Default_Model_Auth::getUserId();
         $error = array();
 
         try {
-            $item = $this->RESTModel->get($id);
+            $item = $this->RESTModel->get($id, $id_User);
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
@@ -57,7 +59,7 @@ class Rest_SiteController extends Zend_Controller_Action {
     }
 
     public function postAction() {
-        
+
 
         $hostname = $this->getRequest()->getParam("hostname");
         $ip = $this->getRequest()->getParam("ip");
@@ -70,6 +72,8 @@ class Rest_SiteController extends Zend_Controller_Action {
         } catch( Exception $exc ) {
             $error['code'] = 400;
             $error['message'] = $exc->getMessage();
+	    echo $exc->getMessage();
+	    exit;
         }
 
         if( count($error) < 1 && ( !$id || $id < 1) ) {
@@ -77,7 +81,6 @@ class Rest_SiteController extends Zend_Controller_Action {
             $error['code'] = 404;
             $error['message'] = "failed to create";
         }
-
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])
@@ -96,8 +99,8 @@ class Rest_SiteController extends Zend_Controller_Action {
     }
 
     public function putAction() {
-        
-        
+
+
         $id = $this->getRequest()->getParam("id");
         $hostname = $this->getRequest()->getParam("hostname");
         $ip = $this->getRequest()->getParam("ip");
@@ -117,7 +120,7 @@ class Rest_SiteController extends Zend_Controller_Action {
             $error['code'] = 404;
             $error['message'] = "failed to edit";
         }
-        
+
         if( count($error) > 0 )
             $this->getResponse()
                     ->setBody($error['message'])
@@ -126,7 +129,7 @@ class Rest_SiteController extends Zend_Controller_Action {
 
     public function deleteAction() {
         //instance the rest version of the of the site model
-        //inside of which we do some sanity work, validate the user.id 
+        //inside of which we do some sanity work, validate the user.id
         //  and that the user can delete other users
         //instantiate the access user-db-model and delete
         $id = $this->getRequest()->getParam("id");
@@ -151,7 +154,7 @@ class Rest_SiteController extends Zend_Controller_Action {
         else
             $this->getResponse()
                     ->setHttpResponseCode(204);
-        
+
     }
 
 }

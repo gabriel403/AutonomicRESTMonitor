@@ -213,7 +213,7 @@ class Rest_Model_User {
         }
 
         return $this->db->editUser($id, $username, $password, $active, $id_Role,
-                $id_User);
+                $id_User, false);
     }
 
     public function delete( $id ) {

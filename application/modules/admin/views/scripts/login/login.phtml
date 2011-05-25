@@ -1,0 +1,12 @@
+<?php
+		$this->headScript()->appendFile(
+			'/js/adminloginform.js', 'text/javascript'
+		);
+		?>
+<div id="loginparent">
+<?php
+echo $this->loginform;
+?>
+	<br style="clear: both;" />
+	<div id="errormsg"></div>
+</div>

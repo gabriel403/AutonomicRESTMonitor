@@ -1,0 +1,56 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Autonomic REST Monitor</title>
+		<?php
+		$this->dojo()->enable();
+
+		if ( $this->dojo()->isEnabled() ) {
+			$this->dojo()->setCdnVersion('1.5')
+				->addStyleSheetModule('dijit.themes.claro')
+				->setDjConfigOption('parseOnLoad', true);
+			echo $this->dojo();
+		}
+
+		echo $this->headLink()->appendStylesheet('/css/admin.css');
+
+
+		$this->headScript()->appendFile(
+			'/js/admin.js', 'text/javascript'
+		);
+		?>
+		<?php echo $this->headMeta(); ?>
+		<?php echo $this->headTitle(); ?>
+		<?php echo $this->headLink(); ?>
+		<?php echo $this->headScript(); ?>
+	</head>
+	<body>
+		<div>
+			<div id="title"><a href="/admin">Autonomic REST Monitor</a></div>
+			<?php
+			$zcf = Zend_Controller_Front::getInstance();
+			$request = $zcf->getRequest();
+			$response = $zcf->getResponse();
+			$module = $request->getModuleName();
+			$menubar = <<<EOT
+				<div id="menubar">
+					<div class="menuitem"><a href="/$module/view/users">Users</a></div>
+					<div class="menuitem"><a href="/$module/view/sites">Sites</a></div>
+					<div class="menuitem"><a href="/$module/view/roles">Roles</a></div>
+					<div class="menuitem"><a href="/$module/login/logout">Logout</a></div>
+					<br style="clear: both;" />
+				</div>
+				<br style="clear: both;" />
+EOT;
+			echo $menubar;
+			?>
+			<br style="clear: both;" />
+		</div>
+		<div id="contentDiv">
+			<?php
+			echo $this->layout()->content;
+			?>
+		</div>
+	</body>
+</html>

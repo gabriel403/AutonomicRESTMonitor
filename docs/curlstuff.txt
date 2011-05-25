@@ -1,4 +1,24 @@
 curl -i -H "username: admin" -H "password: admin" -X POST -d "username=gabriel&password=cyclone&id_Role=1" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/user
 curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=ping" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/requesttype
-curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=HeAd" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/requesttype
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=Head" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/requesttype
 curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=google.com" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/site
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=google.co.uk" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/site
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=icheev.com" http://autonomicrestmonitor.autonomicpilot.co.uk/rest/site
+
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=ping" http://autonomicrestmonitor.dev/rest/requesttype
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "type=Head" http://autonomicrestmonitor.dev/rest/requesttype
+
+curl -i -H "username: admin" -H "password: admin" -X GET http://autonomicrestmonitor.dev/rest/user/
+curl -i -H "username: admin" -H "password: admin" -X GET http://autonomicrestmonitor.dev/rest/user/1
+curl -i -H "username: admin" -H "password: admin" -X POST -d "username=gabriel&password=cyclone&id_Role=1" http://autonomicrestmonitor.dev/rest/user
+
+curl -i -H "username: admin" -H "password: admin" -X GET http://autonomicrestmonitor.dev/rest/site/
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=google.com" http://autonomicrestmonitor.dev/rest/site
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=google.co.uk" http://autonomicrestmonitor.dev/rest/site
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=icheev.com" http://autonomicrestmonitor.dev/rest/site
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "hostname=icheev.com&types={\"ping\":0}" http://autonomicrestmonitor.dev/rest/site
+curl -i -H "username: admin" -H "password: admin" -X GET http://autonomicrestmonitor.dev/rest/site/
+
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "name=user&canAddUser=0&canDeleteUser=0&canEditUser=0&canAddRole=0&canDeleteRole=0&canEditRole=0&canAddServer=1&canDeleteServer=1&canEditServer=1&userLimit=0&roleLimit=0&serverLimit=-1" http://autonomicrestmonitor.dev/rest/role
+curl -i -H "username: gabriel" -H "password: cyclone" -X POST -d "username=user&password=userpass&id_Role=2" http://autonomicrestmonitor.dev/rest/user
+curl -i -H "username: user" -H "password: userpass" -X POST -d "hostname=icheev.com&types={\"ping\":0}" http://autonomicrestmonitor.dev/rest/site

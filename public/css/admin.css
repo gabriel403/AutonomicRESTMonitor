@@ -1,0 +1,82 @@
+/* 
+    Document   : global
+    Created on : Apr 19, 2011, 1:55:55 AM
+    Author     : gabriel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+root { 
+    display: block;
+}
+
+#Login {
+}
+#loginparent {
+    margin: 200px auto;
+    width: 300px;
+}
+
+#title {
+    /*float: left;*/
+    padding-top: 25px;
+}
+
+#Login dt, #Login dd {
+    /*float: left;*/
+}
+
+#Login dt {
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+#Login dd {
+    margin-left: 0px;
+}
+
+.menuitem {
+    float: left;
+    width: 80px;
+}
+
+#menubar {
+    float: right;
+}
+a:link {color: black; text-decoration: none; }
+a:active {color: black; text-decoration: none; }
+a:visited {color: black; text-decoration: none; }
+a:hover {color: black; text-decoration: underline; }
+
+#viewingsTable {
+	margin: 100px auto;
+}
+#viewingsTable th {
+	padding-right: 20px;
+}
+.dijitComboButton {
+	padding: 3px;
+}
+
+#contentDiv {
+	display: none;
+}
+
+#Edit{
+	width: 400px;
+	margin: 0px auto;
+}
+
+#Search{
+	width: 750px;
+	margin: 0px auto;
+}
+
+#Search dd {
+	float:left;
+	padding-right: 20px;
+	
+}
+#Search dt {
+	width: 100px;
+	float:left;
+}

@@ -1,12 +1,12 @@
 <?php
 
-class Default_Form_loginForm extends Zend_Form {
+class Default_Form_loginForm extends Zend_Dojo_Form {
 
     public function init() {
         $this->setName("Login");
         $this->setMethod('post');
 
-        $this->addElement('text', 'username',
+        $this->addElement('ValidationTextBox', 'username',
                 array(
             'filters' => array('StringTrim', 'StringToLower'),
             'validators' => array(
@@ -16,7 +16,7 @@ class Default_Form_loginForm extends Zend_Form {
             'label' => 'Username:',
         ));
 
-        $this->addElement('password', 'password',
+        $this->addElement('PasswordTextBox', 'password',
                 array(
             'filters' => array('StringTrim'),
             'validators' => array(
@@ -26,10 +26,10 @@ class Default_Form_loginForm extends Zend_Form {
             'label' => 'Password:',
         ));
 
-        $this->addElement('submit', 'login',
+        $this->addElement('SubmitButton', 'login',
                 array(
             'required' => false,
-            'ignore' => true,
+//            'ignore' => true,
             'label' => 'Login',
         ));
     }
