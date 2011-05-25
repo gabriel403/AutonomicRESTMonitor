@@ -38,7 +38,7 @@ class Access_Model_User {
 		if ( null === $offset )
 			throw new Exception("Invalid offset $offset");
 
-		if ( !isset($id_User) || !$id_User ) {
+		if ( !isset($id_User) || !$id_User || $id_User == -1 ) {
 			$id_User = Default_Model_Auth::getUserId();
 		}
 		$id_User = filter_var($id_User, FILTER_VALIDATE_INT, $options);
