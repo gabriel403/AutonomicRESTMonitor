@@ -28,6 +28,9 @@ class Rest_SiteController extends Zend_Controller_Action {
             $this->getResponse()
                     ->setBody(json_encode($allitems))
                     ->setHttpResponseCode(200);
+	echo $this->getResponse()->getBody();
+	exit;
+
     }
 
     public function getAction() {
